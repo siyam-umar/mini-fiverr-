@@ -1,0 +1,13 @@
+<h2><%= @user.name %>'s Profile</h2>
+
+<!-- Freelancer Info -->
+<p>Email: <%= @user.email %></p>
+
+<!-- Message Button (only for logged-in users who are NOT the freelancer) -->
+<% if user_signed_in? && current_user != @user %>
+  <%= form_with url: conversations_path, method: :post, local: true do %>
+    <%= hidden_field_tag :receiver_id, @user.id %>
+    <%= submit_tag "Message", class: "btn btn-outline-success" %>
+  <% end %>
+<% end %>
+

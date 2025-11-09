@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>MiniFiverr</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= javascript_importmap_tags %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://js.stripe.com/v3/"></script>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
+      <div class="container">
+        <%= link_to "MiniFiverr", root_path, class: "navbar-brand" %>
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <%= link_to "Home", root_path, class: "nav-link" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to conversations_path, class: "nav-link d-flex align-items-center" do %>
+                💬 <span class="ms-1">Inbox</span>
+              <% end %>       
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container mt-3">
+      <% flash.each do |key, value| %>
+        <div class="alert alert-<%= key == 'notice' ? 'success' : 'danger' %> alert-dismissible fade show" role="alert">
+          <%= value %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      <% end %>
+
+      <% if user_signed_in? %>
+        <div class="bg-light p-2 mb-3 text-end">
+          Welcome, <%= current_user.email %> (<%= current_user.role %>) |
+
+          <% if current_user.role == "client" && request.path != client_dashboard_path %>
+            <%= link_to "My Orders", client_dashboard_path, class: "btn btn-sm btn-outline-primary me-2 mb-2" %>
+          <% elsif current_user.role == "freelancer" %>
+            <% if request.path != freelancer_dashboard_path %>
+              <%= link_to "Order Requests", freelancer_dashboard_path, class: "btn btn-sm btn-outline-success me-2 mb-2" %>
+            <% end %>
+            <% if request.path != new_service_path %>
+              <%= link_to "Post a Service", new_service_path, class: "btn btn-sm btn-primary me-2 mb-2" %>
+            <% end %>
+          <% end %>
+
+          <%= button_to "Sign Out", destroy_user_session_path,
+              method: :delete,
+              data: { confirm: "Are you sure you want to sign out?" },
+              class: "btn btn-sm btn-danger" %>
+        </div>
+      <% else %>
+        <div class="bg-light p-2 mb-3 text-end">
+          <%= link_to "Sign In", new_user_session_path, class: "btn btn-sm btn-outline-primary me-2" %>
+          <%= link_to "Sign Up", new_user_registration_path, class: "btn btn-sm btn-outline-success" %>
+        </div>
+      <% end %>
+
+      <!-- Page content -->
+      <%= yield %>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

@@ -1,0 +1,144 @@
+<div class="login-wrapper">
+  <div class="login-card">
+    <h2 class="login-title">Log&nbsp;In</h2>
+
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <div class="field-group">
+        <%= f.label :email, class: "field-label" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "field-input" %>
+      </div>
+
+      <div class="field-group">
+        <%= f.label :password, class: "field-label" %>
+        <%= f.password_field :password, autocomplete: "current-password", class: "field-input" %>
+      </div>
+
+      <% if devise_mapping.rememberable? %>
+        <div class="remember-wrap">
+          <%= f.check_box :remember_me, id: "remember_me", class: "remember-box" %>
+          <%= f.label :remember_me, class: "remember-label", for: "remember_me" %>
+        </div>
+      <% end %>
+
+      <div class="action-wrap">
+        <%= f.submit "Log in", class: "login-btn" %>
+      </div>
+    <% end %>
+
+    <div class="login-links">
+      <%= render "devise/shared/links" %>
+    </div>
+  </div>
+</div>
+<style>
+  /* Center the whole form on the page */
+.login-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #eef1f6, #f9fbfe);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Card container */
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  padding: 2.5rem 2rem;
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.06);
+}
+
+/* Heading */
+.login-title {
+  text-align: center;
+  margin-bottom: 1.8rem;
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #303952;
+}
+
+/* Field wrapper */
+.field-group {
+  margin-bottom: 1.2rem;
+}
+
+/* Labels */
+.field-label {
+  display: block;
+  font-size: 0.9rem;
+  margin-bottom: 0.4rem;
+  color: #444;
+}
+
+/* Inputs */
+.field-input {
+  width: 100%;
+  padding: 0.65rem 0.9rem;
+  border: 1px solid #cfd6e1;
+  border-radius: 8px;
+  background: #f9fafc;
+  font-size: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.field-input:focus {
+  outline: none;
+  border-color: #5a8dee;
+  box-shadow: 0 0 0 3px rgba(90, 141, 238, 0.25);
+}
+
+/* Remember‑me */
+.remember-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-bottom: 1.4rem;
+  font-size: 0.9rem;
+}
+
+.remember-box {
+  accent-color: #5a8dee;
+}
+
+/* Submit button */
+.login-btn {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #fff;
+  background: #5a8dee;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.login-btn:hover {
+  background: #4a7ddc;
+}
+
+.login-btn:active {
+  transform: translateY(2px);
+}
+
+/* Extra links */
+.login-links {
+  text-align: center;
+  margin-top: 1.2rem;
+}
+
+.login-links a {
+  color: #5a8dee;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.login-links a:hover {
+  text-decoration: underline;
+}
+
+</style>

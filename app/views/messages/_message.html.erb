@@ -1,0 +1,33 @@
+
+<%# Ensure current_user_id is passed via locals, fallback to nil %>
+<% current_user_id ||= nil %>
+
+<div id="<%= dom_id(message) %>" 
+     class="chat-message <%= message.user_id == current_user_id ? 'outgoing' : 'incoming' %>">
+  <div class="message-bubble">
+    <div class="message-text"><%= message.body %></div>
+    <div class="message-meta d-flex justify-content-between align-items-center">
+      <small class="timestamp"><%= message.created_at.strftime("%H:%M") %></small>
+
+      <% if message.user_id == current_user_id %>
+        <%= link_to "Delete", conversation_message_path(message.conversation, message),
+            data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
+            class: "text-danger small ms-2" %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

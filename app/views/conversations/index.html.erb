@@ -1,0 +1,15 @@
+<h2>Your Conversations</h2>
+
+<% if @conversations.empty? %>
+  <p>No messages yet.</p>
+<% else %>
+  <ul class="list-group">
+    <% @conversations.each do |conversation| %>
+      <% other_user = conversation.sender == current_user ? conversation.receiver : conversation.sender %>
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <%= link_to other_user.email, conversation_path(conversation) %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
+

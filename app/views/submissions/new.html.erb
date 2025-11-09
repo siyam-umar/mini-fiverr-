@@ -1,0 +1,17 @@
+<!-- app/views/submissions/new.html.erb -->
+<h2>Submit Work for Order #<%= @order.id %></h2>
+
+<%= form_with url: order_submissions_path(@order), scope: :submission, local: true, html: { multipart: true } do |f| %>
+
+  <div class="mb-3">
+    <%= f.label :file, "Upload File" %>
+    <%= f.file_field :file, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :message, "Message (optional)" %>
+    <%= f.text_area :message, rows: 5, class: "form-control" %>
+  </div>
+
+  <%= f.submit "Submit Work", class: "btn btn-primary" %>
+<% end %>

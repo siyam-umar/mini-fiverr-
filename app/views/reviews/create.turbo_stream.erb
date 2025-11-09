@@ -1,0 +1,2 @@
+<%= turbo_stream.replace dom_id(@service, :new_review_form),
+      partial: "reviews/form", locals: { service: @service, review: Review.new } %>

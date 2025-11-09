@@ -1,0 +1,60 @@
+
+
+
+<h2>My Orders</h2>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Freelancer</th>
+      <th>Service</th>
+      <th>Price</th>
+      <th>Ordered At</th>
+      <th>Status</th>
+      <th>Submission</th> <!-- 👈 New column -->
+      <th>Payments</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @orders.each do |order| %>
+      <tr>
+        <td><%= order.service.user.email %></td>
+        <td><%= order.service.title %></td>
+        <td>$<%= order.service.price %></td>
+        <td><%= order.created_at.strftime("%d %b %Y, %I:%M %p") %></td>
+        
+        <td>
+          <% case order.status %>
+          <% when "pending" %>
+            <span class="badge bg-warning text-dark">Pending</span>
+          <% when "accepted" %>
+            <span class="badge bg-success">Accepted</span>
+          <% when "rejected" %>
+            <span class="badge bg-danger">Rejected</span>
+          <% when "completed" %>
+            <span class="badge bg-primary">Completed</span>
+          <% end %>
+        </td>
+
+        <!-- 👇 Submission download button / message -->
+        <td>
+          <% if order.submission.present? && order.submission.file.attached? %>
+            <%= link_to "Download", rails_blob_path(order.submission.file, disposition: "attachment"), class: "btn btn-sm btn-primary" %><br>
+            <small><%= truncate(order.submission.message, length: 30) %></small>
+          <% else %>
+            <span class="text-muted">No work submitted</span>
+          <% end %>
+        </td>
+        <td>
+        <% if order.payment_status != "paid" %>
+          <%= form_with url: create_checkout_session_order_path(order), method: :post, local: true do %>
+          <%= submit_tag "Pay Now", class: "btn btn-sm btn-success" %>
+          <% end %>
+         <% else %>
+        <span class="badge bg-success">Paid</span>
+        <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

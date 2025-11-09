@@ -1,0 +1,9 @@
+<%= turbo_stream.append "messages-list", partial: "messages/message", 
+      locals: { message: @message, current_user_id: current_user.id } %>
+
+<%= turbo_stream.replace "new_message", partial: "messages/form", 
+      locals: { conversation: @conversation, message: Message.new } %>
+
+
+
+

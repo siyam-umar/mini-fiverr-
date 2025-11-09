@@ -1,0 +1,71 @@
+<h2>Orders on My Services</h2>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Client Email</th>
+      <th>Service</th>
+      <th>Price</th>
+      <th>Ordered At</th>
+      <th>Status</th>
+      <th>Actions</th>
+      <th>Submission</th> <!-- ✅ New Column for Submit Work -->
+       <th>Payment</th> <!-- ✅ NEW -->
+    </tr>
+  </thead>
+  <tbody>
+    <% @orders.each do |order| %>
+      <tr>
+        <td><%= order.user.email %></td>
+        <td><%= order.service.title %></td>
+        <td>$<%= order.service.price %></td>
+        <td><%= order.created_at.strftime("%d %b %Y, %I:%M %p") %></td>
+
+        <!-- ✅ STATUS Badge -->
+        <td>
+          <span class="badge 
+            <%= case order.status
+                when "pending" then "bg-warning text-dark"
+                when "accepted" then "bg-success"
+                when "rejected" then "bg-danger"
+                when "completed" then "bg-primary"
+                end %>">
+            <%= order.status.capitalize %>
+          </span>
+        </td>
+
+        <!-- ✅ Action Buttons -->
+        <td>
+          <% if order.status == "pending" %>
+            <%= button_to "Accept", accept_order_path(order), method: :patch, class: "btn btn-sm btn-success me-1" %>
+            <%= button_to "Reject", reject_order_path(order), method: :patch, class: "btn btn-sm btn-danger" %>
+          <% elsif order.status == "accepted" %>
+            <%= link_to "Mark Completed", complete_order_path(order), method: :patch, class: "btn btn-sm btn-primary" %>
+          <% else %>
+            <span class="text-muted">No actions</span>
+          <% end %>
+        </td>
+
+        <!-- ✅ Submit Work Button -->
+        <td>
+          <% if order.status == "accepted" && order.submission.blank? %>
+            <%= link_to "Submit Work", new_order_submission_path(order), class: "btn btn-sm btn-outline-secondary" %>
+          <% elsif order.submission.present? %>
+            <span class="badge bg-info">Submitted</span><br>
+            <%= link_to "Download", rails_blob_path(order.submission.file, disposition: "attachment"), class: "btn btn-link btn-sm" %>
+          <% else %>
+            <span class="text-muted">N/A</span>
+          <% end %>
+        </td>
+          <!-- ✅ Payment Status Cell -->
+        <td>
+         <% if order.payment_status == "paid" %>
+          <span class="badge bg-success">Paid</span>
+         <% else %>
+         <span class="badge bg-secondary">Unpaid</span>
+         <% end %>
+       </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
