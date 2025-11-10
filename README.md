@@ -35,23 +35,24 @@ It allows clients to post jobs and freelancers to offer services, communicate, a
 ```bash
 git clone https://github.com/siyam-umar/mini-fiverr.git
 cd mini-fiverr
-2️⃣ Install Dependencies
-bash
+###2️⃣ Install Dependencies
+```bash
 Copy code
 bundle install
 yarn install
-3️⃣ Setup the Database
-bash
+###3️⃣ Setup the Database
+```bash
 Copy code
 rails db:create db:migrate db:seed
-4️⃣ Run the Server
-bash
+###4️⃣ Run the Server
+```bash
 Copy code
 rails server
 Open your browser and visit:
 👉 http://localhost:3000
 
-💡 Environment Variables
+###💡 Environment Variables
+```bash
 Create a .env file (or use Rails credentials) and add the following:
 
 ini
@@ -60,6 +61,7 @@ DATABASE_URL=your_database_url
 RAILS_MASTER_KEY=your_master_key
 STRIPE_SECRET_KEY=your_stripe_secret_key
 STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key
-🧑‍🎨 Author
+###🧑‍🎨 Author
+```bash
 Developed by: Siyam Umar
 💌 Email: eishamalik979@gmail.com
